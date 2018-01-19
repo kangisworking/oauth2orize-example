@@ -9,13 +9,17 @@ const passport = require('passport');
 const logger = require('morgan');
 const routes = require('./routes');
 
-require('debug-trace')({
-  always: true,
-})
+const expressLayouts = require('express-ejs-layouts');
+require('debug-trace')({ always: true, colors: { log: '31', warn: '35', info: '32' } })
 
 // Express configuration
 const app = express();
+// layout configuration
+app.set('views',__dirname + '/views');
 app.set('view engine', 'ejs');
+app.set('layout', 'layout');
+app.use(expressLayouts);
+
 app.use(logger('dev'))
 app.use(cookieParser());
 app.use(bodyParser.json({ extended: false }));

@@ -20,6 +20,7 @@
     "ejs": "^2.5.7",
     "errorhandler": "^1.5.0",
     "express": "^4.16.1",
+    "express-ejs-layouts": "^2.3.1",
     "express-session": "^1.15.6",
     "morgan": "^1.9.0",
     "passport": "^0.4.0",

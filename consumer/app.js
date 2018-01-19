@@ -11,18 +11,17 @@ const OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 const config = require('./config');
 const logger = require('morgan');
 const request = require('request')
+const expressLayouts = require('express-ejs-layouts');
 
-require('debug-trace')({
-  always: true,
-  colors: {
-    log: '31',
-    warn: '35',
-    info: '32'
-  }
-})
+require('debug-trace')({ always: true, colors: { log: '31', warn: '35', info: '32' } })
 // Express configuration
 const app = express();
+// layout configuration
+app.set('views',__dirname + '/views');
 app.set('view engine', 'ejs');
+app.set('layout', 'layout');
+app.use(expressLayouts);
+
 app.use(logger('dev'))
 app.use(cookieParser());
 app.use(bodyParser.json({ extended: false }));
@@ -31,7 +30,6 @@ app.use(errorHandler());
 app.use(session({ secret: 'keyboard dog', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
-
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
 //   serialize users into and deserialize users out of the session.
@@ -83,14 +81,16 @@ app.get('/', (req, res, next) => {
 });
 app.get('/login', (req, res, next) => res.render('login'));
 
-app.get('/auth/oauth2-example', passport.authenticate(providerName));
-app.get('/auth/oauth2-example/callback', 
-passport.authenticate(providerName, { failureRedirect: '/login' }), 
-(req, res) => {
-  // Successful authentication, redirect home.
-  console.log('callback')
-  res.redirect('/');
+app.get('/auth/oauth2-example', 
+  passport.authenticate(providerName, { scope: ['sms','email','profile']}))
+
+app.get('/auth/oauth2-example/callback',
+  passport.authenticate(providerName, { failureRedirect: '/login' }), 
+  (req, res) => {
+    // Successful authentication, redirect home.
+    res.redirect('/');
 });
+
 const port = process.argv[2] || 3002;
 app.listen(port, function() {
   console.log('OAuth2 provider is listening on port ' + port);
