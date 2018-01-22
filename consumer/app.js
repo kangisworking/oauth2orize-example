@@ -79,7 +79,12 @@ app.get('/', (req, res, next) => {
   if(req.user) user = JSON.parse(req.user)
   res.render('index', { user, isLogged: req.isAuthenticated() })
 });
-app.get('/login', (req, res, next) => res.render('login'));
+app.get('/login', (req, res) => res.render('login'));
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/')
+})
 
 app.get('/auth/oauth2-example', 
   passport.authenticate(providerName, { scope: ['sms','email','profile']}))

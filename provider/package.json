@@ -4,7 +4,7 @@
   "repository": "",
   "license": "MIT",
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon -x node app.js"
   },
   "dependencies": {
     "body-parser": "^1.17.1",

@@ -2,14 +2,15 @@
 <br>
 <%if (user) { %>
   <p> Hi <%= user.name %>!</p>
+  <a href="/logout" >Logout</a>
 <% } %>
 
 
 <%if (!user) { %>
 <p>This simple web application demos how to integrate with the oauth2 provider</p>
+<br>
 <a href="/login" target="">Login</a></body>
 <% } %>
-
-<p>
-isLogged: <%= isLogged %>
-</p>
+<br>
+<br>
+<p> isLogged: <%= isLogged %> </p>
